@@ -43,6 +43,9 @@
 			return uri;
 		}
 		window.addEventListener('DOMContentLoaded', async ()=>{
+			let query_list = get_GETarray((decodeURI(location.search)+'&').replace(/^\?/,''));
+			console.log(query_list);
+
 		});
 	</script>
 </head>
