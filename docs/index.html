@@ -57,6 +57,16 @@
 					e.value = decodeSpecialEntity(query_list[i]);
 				});
 				ports=[80,443,8080,25560,25561,25562,25563,25564,25565,25566,25567,25568,25569,25570];
+				for (let j=1;j<=ports.length;j++) {
+					console.log(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
+					try {
+						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
+							timeout: 1,
+						})
+					} catch (error) {
+						continue;
+					}
+				}
 			}
 		});
 	</script>
