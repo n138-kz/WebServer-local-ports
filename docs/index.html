@@ -46,6 +46,8 @@
 			let query_list = get_GETarray((decodeURI(location.search)+'&').replace(/^\?/,''));
 			console.log(query_list);
 
+			i='addr';
+			query_list[i]=( query_list[i] === "" || query_list[i] === null || query_list[i] === undefined )?null:query_list[i];
 		});
 	</script>
 </head>
