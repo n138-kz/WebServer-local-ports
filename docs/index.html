@@ -36,6 +36,13 @@
 			padding: 0 10px;
 		}
 	</style>
+	<script>
+		function decodeSpecialEntity(uri) {
+			uri = uri.replace(/\%3A/g, ':');
+			uri = uri.replace(/\%2F/g, '/');
+			return uri;
+		}
+	</script>
 </head>
 <body>
 	<form action="#" method="get" name="init">
