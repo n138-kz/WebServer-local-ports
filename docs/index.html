@@ -52,6 +52,10 @@
 				Array.from(document.querySelectorAll('form input[name="addr"]')).map((e)=>{
 					e.value = 'https://' + location.hostname;
 				});
+			} else {
+				Array.from(document.querySelectorAll('form input[name="addr"]')).map((e)=>{
+					e.value = decodeSpecialEntity(query_list[i]);
+				});
 			}
 		});
 	</script>
