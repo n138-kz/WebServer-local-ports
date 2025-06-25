@@ -48,6 +48,11 @@
 
 			i='addr';
 			query_list[i]=( query_list[i] === "" || query_list[i] === null || query_list[i] === undefined )?null:query_list[i];
+			if (query_list[i] === null) {
+				Array.from(document.querySelectorAll('form input[name="addr"]')).map((e)=>{
+					e.value = 'https://' + location.hostname;
+				});
+			}
 		});
 	</script>
 </head>
