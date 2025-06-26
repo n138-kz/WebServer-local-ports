@@ -61,7 +61,9 @@
 					console.log(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
 					try {
 						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
+							method: 'GET',
 							timeout: 1,
+							mode: 'cors',
 						})
 					} catch (error) {
 						continue;
