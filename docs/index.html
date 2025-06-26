@@ -96,7 +96,7 @@
 					result_dom[4].innerText = 'N/A';
 					try {
 						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
-							method: 'CONNECT',
+							method: 'HEAD',
 							timeout: 1,
 							mode: 'cors',
 						})
