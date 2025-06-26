@@ -56,19 +56,63 @@
 				Array.from(document.querySelectorAll('form[name="init"] input[name="addr"]')).map((e)=>{
 					e.value = decodeSpecialEntity(query_list[i]);
 				});
+				let result_dom = [];
+				result_dom[0] = document.createElement('table');
+				result_dom[0].border = 1;
+				result_dom[1] = document.createElement('thead');
+				result_dom[2] = document.createElement('tr');
+				result_dom[3] = document.createElement('th');
+				result_dom[3].innerText = 'Addr:Port';
+				result_dom[2].appendChild(result_dom[3]); // T-row
+				result_dom[3] = document.createElement('th');
+				result_dom[3].innerText = 'OK/Fail';
+				result_dom[2].appendChild(result_dom[3]); // T-row
+				result_dom[1].appendChild(result_dom[2]); // T-Head
+				result_dom[1] = document.createElement('tbody');
+				//result_dom[2] = document.createElement('tr');
+				//result_dom[3] = document.createElement('td');
+				//result_dom[4] = document.createElement('a');
+				//result_dom[4].href = 'http://...:80';
+				//result_dom[4].innerText = 'http://...:80';
+				//result_dom[3].appendChild(result_dom[4]); // T-data
+				//result_dom[2].appendChild(result_dom[3]); // T-row
+
 				ports=[80,443,8080,25560,25561,25562,25563,25564,25565,25566,25567,25568,25569,25570];
 				for (let j=1;j<=ports.length;j++) {
 					console.log(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
+
+					result_dom[2] = document.createElement('tr');
+					result_dom[3] = document.createElement('td');
+					result_dom[4] = document.createElement('a');
+					result_dom[4].href = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
+					result_dom[4].innerText = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
+					result_dom[3].appendChild(result_dom[4]); // T-data
+					result_dom[2].appendChild(result_dom[3]); // T-row
+					result_dom[2] = document.createElement('tr');
+					result_dom[3] = document.createElement('td');
+					result_dom[4] = document.createElement('a');
+					result_dom[4].href = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
 					try {
 						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
 							method: 'GET',
 							timeout: 1,
 							mode: 'cors',
 						})
+						result_dom[4].innerText = 'OK';
 					} catch (error) {
+						result_dom[4].innerText = 'NG';
 						continue;
 					}
+					result_dom[3].appendChild(result_dom[4]); // T-data
+					result_dom[2].appendChild(result_dom[3]); // T-row
 				}
+
+				result_dom[1].appendChild(result_dom[2]); // T-Body
+				result_dom[0].appendChild(result_dom[1]); // Table
+				result_dom = result_dom[0];
+				Array.from(document.querySelectorAll('form[name="init"]')).map((e)=>{
+					e.after(result_dom);
+				});
 			}
 		});
 	</script>
