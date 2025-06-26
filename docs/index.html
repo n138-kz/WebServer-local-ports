@@ -59,6 +59,7 @@
 				let result_dom = [];
 				result_dom[0] = document.createElement('table');
 				result_dom[0].border = 1;
+				result_dom[0].id = 'addr_check_result';
 				result_dom[1] = document.createElement('thead');
 				result_dom[2] = document.createElement('tr');
 				result_dom[3] = document.createElement('th');
@@ -69,6 +70,10 @@
 				result_dom[2].appendChild(result_dom[3]); // T-row
 				result_dom[1].appendChild(result_dom[2]); // T-Head
 				result_dom[0].appendChild(result_dom[1]); // Table
+				Array.from(document.querySelectorAll('form[name="init"]')).map((e)=>{
+					e.after(result_dom[0]);
+				});
+
 				result_dom[1] = document.createElement('tbody');
 				//result_dom[2] = document.createElement('tr');
 				//result_dom[3] = document.createElement('td');
@@ -80,7 +85,7 @@
 
 				ports=[80,443,8080,25560,25561,25562,25563,25564,25565,25566,25567,25568,25569,25570];
 				for (let j=0;j<ports.length;j++) {
-					console.log(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
+					console.warn(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
 
 					result_dom[2] = document.createElement('tr');
 					result_dom[3] = document.createElement('td');
@@ -89,35 +94,45 @@
 					result_dom[4].innerText = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
 					result_dom[3].appendChild(result_dom[4]); // T-data
 					result_dom[2].appendChild(result_dom[3]); // T-row
-					result_dom[1].appendChild(result_dom[2]); // T-Body
-					result_dom[2] = document.createElement('tr');
 					result_dom[3] = document.createElement('td');
 					result_dom[4] = document.createElement('a');
 					result_dom[4].href = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
 					result_dom[4].innerText = 'N/A';
+
+					let req = null;
 					try {
-						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
+						req = await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
 							method: 'HEAD',
 							timeout: 1,
 							mode: 'cors',
+							redirect: 'follow',
 						})
 						result_dom[4].innerText = 'OK';
 					} catch (error) {
-						result_dom[4].innerText = 'NG';
+						console.warn(error.message);
+						console.warn(error.stack);
+						console.warn(error);
+						console.warn(req);
+						
+						if (false) {
+						} else if (error instanceof TypeError) {
+							result_dom[4].innerText = 'TypeError';
+						} else if (error instanceof ERR_INVALID_HTTP_RESPONSE) {
+							result_dom[4].innerText = 'ERR_INVALID_HTTP_RESPONSE';
+						} else {
+							result_dom[4].innerText = 'NG';
+						}
 					}
 					
 					result_dom[3].appendChild(result_dom[4]); // T-data
 					result_dom[2].appendChild(result_dom[3]); // T-row
 					result_dom[1].appendChild(result_dom[2]); // T-Body
+
+					Array.from(document.querySelectorAll('table#addr_check_result thead')).map((e)=>{
+						e.after(result_dom[1]);
+					});
 				}
 
-				result_dom[0].appendChild(result_dom[1]); // Table
-				result_dom = result_dom[0];
-				console.log(result_dom);
-				
-				Array.from(document.querySelectorAll('form[name="init"]')).map((e)=>{
-					e.after(result_dom);
-				});
 			}
 		});
 	</script>
