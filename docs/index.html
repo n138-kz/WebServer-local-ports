@@ -92,6 +92,7 @@
 					result_dom[3] = document.createElement('td');
 					result_dom[4] = document.createElement('a');
 					result_dom[4].href = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
+					result_dom[4].innerText = 'N/A';
 					try {
 						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
 							method: 'CONNECT',
