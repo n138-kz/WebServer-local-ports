@@ -94,7 +94,7 @@
 					result_dom[4].href = `${decodeSpecialEntity(query_list[i])}:${ports[j]}`;
 					try {
 						await fetch(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`,{
-							method: 'GET',
+							method: 'CONNECT',
 							timeout: 1,
 							mode: 'cors',
 						})
