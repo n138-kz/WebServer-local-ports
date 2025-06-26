@@ -78,7 +78,7 @@
 				//result_dom[2].appendChild(result_dom[3]); // T-row
 
 				ports=[80,443,8080,25560,25561,25562,25563,25564,25565,25566,25567,25568,25569,25570];
-				for (let j=1;j<=ports.length;j++) {
+				for (let j=0;j<ports.length;j++) {
 					console.log(`${decodeSpecialEntity(query_list[i])}:${ports[j]}`);
 
 					result_dom[2] = document.createElement('tr');
